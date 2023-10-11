@@ -4,16 +4,38 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="03982b69-72fe-46bb-a77b-a36315055f85" name="Changes" comment="" />
+    <list default="true" id="03982b69-72fe-46bb-a77b-a36315055f85" name="Changes" comment="First commit. Main project`s structure">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Docker-compose.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Docker/Client/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Docker/Consumer/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Docker/DataBase/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Docker/HTTPClient/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Docker/Monobank/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Docker/NBU/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Docker/Privatbank/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Docker/Provider/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Docker/ServiceDiscoveryServer/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2WHxrbfPxadX1DRH6KnfyymwERZ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -28,7 +50,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/My_Projects/Java/MavenCurrencyRates/CurrencyRatesConsumer",
+    "last_opened_file_path": "C:/My_Projects/Java/MavenCurrencyRates",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
@@ -246,11 +268,34 @@
       <workItem from="1696868293545" duration="11190000" />
       <workItem from="1696914265894" duration="4196000" />
       <workItem from="1696957982588" duration="1499000" />
-      <workItem from="1697042291250" duration="8971000" />
+      <workItem from="1697042291250" duration="10487000" />
     </task>
+    <task id="LOCAL-00001" summary="First commit. Main project`s structure">
+      <created>1697051704140</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1697051704140</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="First commit. Main project`s structure" />
+    <option name="LAST_COMMIT_MESSAGE" value="First commit. Main project`s structure" />
   </component>
 </project>
