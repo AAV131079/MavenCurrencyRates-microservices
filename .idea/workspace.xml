@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="03982b69-72fe-46bb-a77b-a36315055f85" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2WHxrbfPxadX1DRH6KnfyymwERZ" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/My_Projects/Java/MavenCurrencyRates/CurrencyRatesConsumer",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "vcs.Git",
+    "spring.configuration.checksum": "0444a88a79403e380da168f1e6440fa8"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\My_Projects\Java\MavenCurrencyRates\CurrencyRatesConsumer" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\My_Projects\Java\MavenCurrencyRates" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean package" />
+    </option>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.HttpClientApplication">
+    <configuration name="CurrencyRatesConsumer [package] (1)" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="package" />
+              </list>
+            </option>
+            <option name="pomFileName" value="pom.xml" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$/CurrencyRatesConsumer" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="CurrencyRatesConsumer [package]" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="package" />
+                <option value="-DskipTests" />
+              </list>
+            </option>
+            <option name="pomFileName" value="pom.xml" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$/CurrencyRatesConsumer" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="CurrencyRatesClientApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="CurrencyRatesClient" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.currencyratesclient.CurrencyRatesClientApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CurrencyRatesConsumerApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="CurrencyRatesConsumer" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.currencyratesconsumer.CurrencyRatesConsumerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CurrencyRatesConsumerApplication (2)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="CurrencyRatesConsumer" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.currencyratesconsumer.CurrencyRatesConsumerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CurrencyRatesConsumerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="CurrencyRatesConsumer" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mavencurrencyrates.currencyratesconsumer.CurrencyRatesConsumerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CurrencyRatesProviderApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="CurrencyRatesProvider" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.currencyratesprovider.CurrencyRatesProviderApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DiscoveryServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
+      <module name="ServiceDiscoveryServer" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.servicediscoveryserver.ServiceDiscoveryServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HttpClientApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="HTTPClient" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.httpclient.HttpClientApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MonobankServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="MonobankService" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.monobankservice.MonobankServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NbuServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="NBUService" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.nbuservice.NbuServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PrivatbankServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="PrivatbankService" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.privatbankservice.PrivatbankServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ServiceDiscoveryServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="servicediscoveryserver" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.servicediscoveryserver.ServiceDiscoveryServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Consumer/Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="buildOnly" value="true" />
+          <option name="sourceFilePath" value="Docker/Consumer/Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="DataBase/Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="buildOnly" value="true" />
+          <option name="sourceFilePath" value="Docker/DataBase/Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="Docker/DataBase/Dockerfile i_CurrencyRateDB" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="imageTag" value="postgres16.0_i_CurrencyRateDB" />
+          <option name="buildCliOptions" value="--target i_CurrencyRateDB" />
+          <option name="buildKitEnabled" value="true" />
+          <option name="buildOnly" value="true" />
+          <option name="sourceFilePath" value="Docker/DataBase/Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.DiscoveryServiceApplication" />
+        <item itemvalue="Docker.Consumer/Dockerfile" />
+        <item itemvalue="Docker.Docker/DataBase/Dockerfile i_CurrencyRateDB" />
+        <item itemvalue="Docker.DataBase/Dockerfile" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="03982b69-72fe-46bb-a77b-a36315055f85" name="Changes" comment="" />
+      <created>1696403523665</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1696403523665</updated>
+      <workItem from="1696403532412" duration="972000" />
+      <workItem from="1696405267254" duration="565000" />
+      <workItem from="1696437699561" duration="8267000" />
+      <workItem from="1696519018761" duration="543000" />
+      <workItem from="1696570358942" duration="21570000" />
+      <workItem from="1696658911090" duration="3006000" />
+      <workItem from="1696764219022" duration="4214000" />
+      <workItem from="1696777593794" duration="4790000" />
+      <workItem from="1696783574964" duration="11633000" />
+      <workItem from="1696828361234" duration="7322000" />
+      <workItem from="1696868293545" duration="11190000" />
+      <workItem from="1696914265894" duration="4196000" />
+      <workItem from="1696957982588" duration="1499000" />
+      <workItem from="1697042291250" duration="8971000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
