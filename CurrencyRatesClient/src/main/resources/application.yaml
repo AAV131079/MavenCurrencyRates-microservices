@@ -10,11 +10,22 @@ spring:
     config:
       enabled: false
   jpa:
+    database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate.jdbc.lob.non_contextual_creation: true
+
   datasource:
-    url: ${PATH_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false
-    username: admin
-    password: your-password
+    url: ${PATH_DATABASE}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      schema: ${DB_SCHEMAS}
 
 # Eureka client
 eureka:
