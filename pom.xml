@@ -20,6 +20,17 @@
     <name>MavenCurrencyRates</name>
     <description>Parent project</description>
 
+    <modules>
+        <module>CurrencyRatesConsumer</module>
+        <module>HTTPClient</module>
+        <module>ServiceDiscoveryServer</module>
+        <module>CurrencyRatesClient</module>
+        <module>CurrencyRatesProvider</module>
+        <module>NBUService</module>
+        <module>MonobankService</module>
+        <module>PrivatbankService</module>
+    </modules>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -54,6 +65,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
@@ -68,15 +85,21 @@
         </dependencies>
     </dependencyManagement>
 
-    <modules>
-        <module>CurrencyRatesConsumer</module>
-        <module>HTTPClient</module>
-        <module>ServiceDiscoveryServer</module>
-        <module>CurrencyRatesClient</module>
-        <module>CurrencyRatesProvider</module>
-        <module>NBUService</module>
-        <module>MonobankService</module>
-        <module>PrivatbankService</module>
-    </modules>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
