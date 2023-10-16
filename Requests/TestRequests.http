@@ -1,0 +1,7 @@
+### Currency rates for current date
+GET http://localhost:8080/rates/current
+Accept: application/json
+
+### Currency rates for period
+GET http://localhost:8080/rates/period/start=2023-10-13/finish=2023-10-16
+Accept: application/json
