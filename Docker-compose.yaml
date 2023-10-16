@@ -284,8 +284,29 @@ services:
       retries: 10
     restart: unless-stopped
 
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:7.2
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "13101979@ukr.net"
+      PGADMIN_DEFAULT_PASSWORD: "aav13101979"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+    networks:
+      - appnet
+
 networks:
   appnet:
 
 volumes:
   currency-rates-postgresql-db:
+  pgadmin-data:
