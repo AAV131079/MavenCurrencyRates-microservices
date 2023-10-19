@@ -1,8 +1,10 @@
 package com.currencyratesclient.controller;
 
 import com.currencyratesclient.dto.Request.RequestDTO;
+import com.currencyratesclient.dto.Response.BaseClientResponseDTO;
 import com.currencyratesclient.dto.Response.ErrorClientResponseDTO;
-import com.currencyratesclient.dto.Response.ClientResponseDTO;
+import com.currencyratesclient.dto.Response.FullClientResponseDTO;
+import com.currencyratesclient.dto.Response.ShortClientResponseDTO;
 import com.currencyratesclient.service.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
+import java.util.Map;
 
 @RestController
 @Tag(name = "Exchange rates API.",
@@ -39,14 +42,19 @@ public class ClientController {
     @ApiResponses({
             @ApiResponse(responseCode = "200",
                          description = "The request was completed successfully.",
-                         content = @Content(schema = @Schema(implementation = ClientResponseDTO.class))),
+                         content = @Content(schema = @Schema(implementation = FullClientResponseDTO.class))),
+            @ApiResponse(responseCode = "206",
+                    description = "Not found data in storage by your request.",
+                    content = @Content(schema = @Schema(implementation = ShortClientResponseDTO.class))),
             @ApiResponse(responseCode = "400",
                          description = "Error while executing request.",
                          content = @Content(schema = @Schema(implementation = ErrorClientResponseDTO.class)))
     })
     @GetMapping("/current")
-    private ResponseEntity<ClientResponseDTO> getCurrentRates() throws ParseException {
-        return new ResponseEntity<>(clientService.getCurrentRates(), HttpStatus.OK);
+    private ResponseEntity<BaseClientResponseDTO> getForCurrentDay() throws ParseException {
+        Map<BaseClientResponseDTO, HttpStatus> result = clientService.getForCurrentDay();
+        return new ResponseEntity<>((BaseClientResponseDTO) result.keySet().stream().toArray()[0],
+                                    (HttpStatus) result.values().toArray()[0]);
     }
 
     @Operation(summary = "Get average exchange rates for the period.",
@@ -58,15 +66,20 @@ public class ClientController {
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200",
-                         description = "The request was completed successfully.",
-                         content = @Content(schema = @Schema(implementation = ClientResponseDTO.class))),
+                    description = "The request was completed successfully.",
+                    content = @Content(schema = @Schema(implementation = FullClientResponseDTO.class))),
+            @ApiResponse(responseCode = "206",
+                    description = "Not found data in storage by your request.",
+                    content = @Content(schema = @Schema(implementation = ShortClientResponseDTO.class))),
             @ApiResponse(responseCode = "400",
                          description = "Error while executing request.",
                          content = @Content(schema = @Schema(implementation = ErrorClientResponseDTO.class)))
     })
     @GetMapping("/period")
-    private ResponseEntity<ClientResponseDTO> getCurrentRates(@org.springframework.web.bind.annotation.RequestBody RequestDTO requestDTO) throws ParseException {
-        return new ResponseEntity<>(clientService.getPeriodRates(requestDTO.getStartDate(), requestDTO.getFinishDate()), HttpStatus.OK);
+    private ResponseEntity<BaseClientResponseDTO> getForPeriodJson(@org.springframework.web.bind.annotation.RequestBody RequestDTO requestDTO) throws ParseException {
+        Map<BaseClientResponseDTO, HttpStatus> result = clientService.getForPeriod(requestDTO.getStartDate(), requestDTO.getFinishDate());
+        return new ResponseEntity<>((BaseClientResponseDTO) result.keySet().stream().toArray()[0],
+                                    (HttpStatus) result.values().toArray()[0]);
     }
 
     @Operation(summary = "Get average exchange rates for the period.",
@@ -94,15 +107,20 @@ public class ClientController {
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200",
-                         description = "The request was completed successfully.",
-                         content = @Content(schema = @Schema(implementation = ClientResponseDTO.class))),
+                    description = "The request was completed successfully.",
+                    content = @Content(schema = @Schema(implementation = FullClientResponseDTO.class))),
+            @ApiResponse(responseCode = "206",
+                    description = "Not found data in storage by your request.",
+                    content = @Content(schema = @Schema(implementation = ShortClientResponseDTO.class))),
             @ApiResponse(responseCode = "400",
                          description = "Error while executing request.",
                          content = @Content(schema = @Schema(implementation = ErrorClientResponseDTO.class)))
     })
     @GetMapping("/period/start={startDate}/finish={finishDate}")
-    private ResponseEntity<ClientResponseDTO> getPeriodRates(@PathVariable String startDate, @PathVariable String finishDate) throws ParseException {
-        return new ResponseEntity<>(clientService.getPeriodRates(startDate, finishDate), HttpStatus.OK);
+    private ResponseEntity<BaseClientResponseDTO> getForPeriodUrl(@PathVariable String startDate, @PathVariable String finishDate) throws ParseException {
+        Map<BaseClientResponseDTO, HttpStatus> result = clientService.getForPeriod(startDate, finishDate);
+        return new ResponseEntity<>((BaseClientResponseDTO) result.keySet().stream().toArray()[0],
+                                    (HttpStatus) result.values().toArray()[0]);
     }
 
 }

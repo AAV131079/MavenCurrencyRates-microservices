@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ClientResponseDTO {
+public class BaseClientResponseDTO {
 
     @Schema(description = "Description of response", example = "The average exchange rate for period (Privatbank, Monobank, NBU)")
     private String description;
@@ -18,9 +18,8 @@ public class ClientResponseDTO {
     private String finishDateTime;
     @Schema(description = "Warning message", example = "Nothing was found in the specified period.")
     private String message;
-    private CurrencyRate[] currencyRates;
 
-    public ClientResponseDTO(String startDate, String finishDate, String description) {
+    public BaseClientResponseDTO(String startDate, String finishDate, String description) {
         this.description = description;
         this.startDateTime = startDate;
         this.finishDateTime = finishDate;
