@@ -5,14 +5,15 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
-public class HttpClientService {
+public class HttpClientServiceImpl implements IHttpClientService {
 
     private final HttpRequesterImpl httpRequester;
 
-    public HttpClientService(HttpRequesterImpl httpRequester) {
+    public HttpClientServiceImpl(HttpRequesterImpl httpRequester) {
         this.httpRequester = httpRequester;
     }
 
+    @Override
     public String getServiceResponse(String serviceUrl) throws IOException {
         return httpRequester.getRequest(serviceUrl);
     }

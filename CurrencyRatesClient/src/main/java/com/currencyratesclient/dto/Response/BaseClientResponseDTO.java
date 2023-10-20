@@ -19,10 +19,35 @@ public class BaseClientResponseDTO {
     @Schema(description = "Warning message", example = "Nothing was found in the specified period.")
     private String message;
 
-    public BaseClientResponseDTO(String startDate, String finishDate, String description) {
+    public BaseClientResponseDTO(String startDate, String finishDate, String description, String message) {
         this.description = description;
         this.startDateTime = startDate;
         this.finishDateTime = finishDate;
+        this.message = message;
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder outputString = new StringBuilder();
+
+        outputString.append("BaseClientResponseDTO{");
+        outputString.append("description='");
+        outputString.append(description);
+        outputString.append('\'');
+        outputString.append(", startDateTime='");
+        outputString.append(startDateTime);
+        outputString.append('\'');
+        outputString.append(", finishDateTime='");
+        outputString.append(finishDateTime);
+        outputString.append('\'');
+        outputString.append(", message='");
+        outputString.append(message);
+        outputString.append('\'');
+        outputString.append('}');
+
+        return  outputString.toString();
+
     }
 
 }

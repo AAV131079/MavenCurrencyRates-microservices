@@ -2,7 +2,7 @@ package com.httpclient.controller;
 
 import com.httpclient.dto.request.RequestDTO;
 import com.httpclient.dto.response.ErrorClientResponseDTO;
-import com.httpclient.service.HttpClientService;
+import com.httpclient.service.HttpClientServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,8 +10,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -21,12 +19,12 @@ import java.io.IOException;
 @Tag(name = "Http client API.",
      description = "API for getting data from remote services.")
 @RequestMapping("/api")
-public class HttpClientController {
+public class HttpClientController implements  IHttpClientController {
 
-    private final HttpClientService httpClientService;
+    private final HttpClientServiceImpl httpClientServiceImpl;
 
-    public HttpClientController(HttpClientService httpClientService) {
-        this.httpClientService = httpClientService;
+    public HttpClientController(HttpClientServiceImpl httpClientServiceImpl) {
+        this.httpClientServiceImpl = httpClientServiceImpl;
     }
 
     @Operation(summary = "Get a data from remote services.",
@@ -39,10 +37,13 @@ public class HttpClientController {
                     description = "Error while executing request.",
                     content = @Content(schema = @Schema(implementation = ErrorClientResponseDTO.class)))
     })
-    @GetMapping("/get/currencyrates")
-    public ResponseEntity<String> getServiceResponse(@RequestBody RequestDTO request) throws IOException {
+    @Override
+    @GetMapping(value = "/get/currencyrates", produces = "application/json")
+    public @ResponseBody String getServiceResponse(@RequestBody RequestDTO request) throws IOException {
         log.info("HttpClientService::getServiceResponse", request.toString());
-        return new ResponseEntity<>(httpClientService.getServiceResponse(request.getUrl()), HttpStatus.OK);
+        String response =  httpClientServiceImpl.getServiceResponse(request.getUrl());
+        log.info(response);
+        return response;
     }
 
 }

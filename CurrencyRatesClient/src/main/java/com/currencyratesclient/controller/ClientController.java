@@ -15,21 +15,19 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @Tag(name = "Exchange rates API.",
      description = "API for obtaining exchange rates using the data of three financial institutions (Monobank, Privatbank, National Bank of Ukraine).")
 @RequestMapping("/rates")
-public class ClientController {
+public class ClientController implements IClientController {
 
      private final ClientService clientService;
 
@@ -50,11 +48,16 @@ public class ClientController {
                          description = "Error while executing request.",
                          content = @Content(schema = @Schema(implementation = ErrorClientResponseDTO.class)))
     })
+    @Override
     @GetMapping("/current")
-    private ResponseEntity<BaseClientResponseDTO> getForCurrentDay() throws ParseException {
+    public @ResponseBody ResponseEntity<BaseClientResponseDTO> getForCurrentDay() {
+        log.info("ClientController::getForCurrentDay", "/rates/current", "GET");
         Map<BaseClientResponseDTO, HttpStatus> result = clientService.getForCurrentDay();
-        return new ResponseEntity<>((BaseClientResponseDTO) result.keySet().stream().toArray()[0],
-                                    (HttpStatus) result.values().toArray()[0]);
+        ResponseEntity<BaseClientResponseDTO> responseEntity = new ResponseEntity<>(
+                (BaseClientResponseDTO) result.keySet().toArray()[0],
+                (HttpStatus) result.values().toArray()[0]);
+        log.info(responseEntity.toString());
+        return responseEntity;
     }
 
     @Operation(summary = "Get average exchange rates for the period.",
@@ -75,11 +78,16 @@ public class ClientController {
                          description = "Error while executing request.",
                          content = @Content(schema = @Schema(implementation = ErrorClientResponseDTO.class)))
     })
+    @Override
     @GetMapping("/period")
-    private ResponseEntity<BaseClientResponseDTO> getForPeriodJson(@org.springframework.web.bind.annotation.RequestBody RequestDTO requestDTO) throws ParseException {
+    public @ResponseBody ResponseEntity<BaseClientResponseDTO> getForPeriodJson(@org.springframework.web.bind.annotation.RequestBody RequestDTO requestDTO) {
+        log.info("ClientController::getForPeriodJson", "/rates/period", "GET", "@RequestBody RequestDTO.class");
         Map<BaseClientResponseDTO, HttpStatus> result = clientService.getForPeriod(requestDTO.getStartDate(), requestDTO.getFinishDate());
-        return new ResponseEntity<>((BaseClientResponseDTO) result.keySet().stream().toArray()[0],
-                                    (HttpStatus) result.values().toArray()[0]);
+        ResponseEntity<BaseClientResponseDTO> responseEntity = new ResponseEntity<>(
+                (BaseClientResponseDTO) result.keySet().toArray()[0],
+                (HttpStatus) result.values().toArray()[0]);
+        log.info(responseEntity.toString());
+        return responseEntity;
     }
 
     @Operation(summary = "Get average exchange rates for the period.",
@@ -116,11 +124,16 @@ public class ClientController {
                          description = "Error while executing request.",
                          content = @Content(schema = @Schema(implementation = ErrorClientResponseDTO.class)))
     })
+    @Override
     @GetMapping("/period/start={startDate}/finish={finishDate}")
-    private ResponseEntity<BaseClientResponseDTO> getForPeriodUrl(@PathVariable String startDate, @PathVariable String finishDate) throws ParseException {
+    public @ResponseBody ResponseEntity<BaseClientResponseDTO> getForPeriodUrl(@PathVariable String startDate, @PathVariable String finishDate) {
+        log.info("ClientController::getForPeriodUrl", "/rates/period/start={startDate}/finish={finishDate}", "GET", "@PathVariable String startDate, @PathVariable String finishDate");
         Map<BaseClientResponseDTO, HttpStatus> result = clientService.getForPeriod(startDate, finishDate);
-        return new ResponseEntity<>((BaseClientResponseDTO) result.keySet().stream().toArray()[0],
-                                    (HttpStatus) result.values().toArray()[0]);
+        ResponseEntity<BaseClientResponseDTO> responseEntity = new ResponseEntity<>(
+                (BaseClientResponseDTO) result.keySet().toArray()[0],
+                (HttpStatus) result.values().toArray()[0]);
+        log.info(responseEntity.toString());
+        return responseEntity;
     }
 
 }

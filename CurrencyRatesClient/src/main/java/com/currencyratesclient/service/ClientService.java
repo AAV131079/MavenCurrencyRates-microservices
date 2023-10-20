@@ -4,30 +4,32 @@ import com.currencyratesclient.dto.Response.*;
 import com.currencyratesclient.enums.CurrencyEnum;
 import com.currencyratesclient.helper.DataHelper;
 import com.currencyratesclient.ropository.ClientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.util.*;
 
 @Service
-public class ClientService {
+public class ClientService implements IClientService {
 
-    private final ClientRepository clientRepository;
+    @Autowired
+    private ClientRepository clientRepository;
 
     private final static String CURRENT_DATE = "The average exchange rate for today (Privatbank, Monobank, NBU)";
     private final static String PERIOD_DATE = "The average exchange rate for period (Privatbank, Monobank, NBU)";
     private final static String NOT_FOUND = "Nothing was found in the specified period.";
 
-    public ClientService(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
+    public ClientService() {
     }
 
-    public Map<BaseClientResponseDTO, HttpStatus> getForCurrentDay() throws ParseException {
+    @Override
+    public Map<BaseClientResponseDTO, HttpStatus> getForCurrentDay() {
         String currentDate = DataHelper.getCurrentDate();
         return getClientResponse(currentDate, currentDate);
     }
 
+    @Override
     public Map<BaseClientResponseDTO, HttpStatus> getForPeriod(String startDate, String finishDate) {
         return getClientResponse(startDate, finishDate);
     }
@@ -53,16 +55,17 @@ public class ClientService {
                     (
                     DataHelper.getStartDate(startDate).toString(),
                     DataHelper.getFinishDate(finishDate).toString(),
-                    startDate.equals(finishDate) ? CURRENT_DATE : PERIOD_DATE
+                    startDate.equals(finishDate) ? CURRENT_DATE : PERIOD_DATE,
+                    NOT_FOUND
                     );
-            ((ShortClientResponseDTO) clientResponse).setMessage(NOT_FOUND);
             return createMap(clientResponse, HttpStatus.PARTIAL_CONTENT);
         } else {
             BaseClientResponseDTO clientResponse = new FullClientResponseDTO
                     (
                     DataHelper.getStartDate(startDate).toString(),
                     DataHelper.getFinishDate(finishDate).toString(),
-                    startDate.equals(finishDate) ? CURRENT_DATE : PERIOD_DATE
+                    startDate.equals(finishDate) ? CURRENT_DATE : PERIOD_DATE,
+                   null
                     );
             ((FullClientResponseDTO) clientResponse).setCurrencyRates(currencyRateList.toArray(new CurrencyRate[0]));
             return createMap(clientResponse, HttpStatus.OK);
@@ -80,7 +83,7 @@ public class ClientService {
 
     private Map<BaseClientResponseDTO, HttpStatus> createMap(BaseClientResponseDTO clientResponse, HttpStatus httpStatus) {
         Map<BaseClientResponseDTO, HttpStatus> map = new HashMap<>();
-        map.put(clientResponse, HttpStatus.PARTIAL_CONTENT);
+        map.put(clientResponse, httpStatus);
         return map;
     }
 

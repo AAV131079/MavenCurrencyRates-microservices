@@ -20,4 +20,22 @@ public class ErrorClientResponseDTO {
         this.errorDescription = errorDescription;
     }
 
+    @Override
+    public String toString() {
+
+        StringBuilder outputString = new StringBuilder();
+
+        outputString.append("ErrorClientResponseDTO{");
+        outputString.append("errorType='");
+        outputString.append(errorType);
+        outputString.append('\'');
+        outputString.append(", errorDescription='");
+        outputString.append(errorDescription);
+        outputString.append('\'');
+        outputString.append('}');
+
+        return  outputString.toString();
+
+    }
+
 }
