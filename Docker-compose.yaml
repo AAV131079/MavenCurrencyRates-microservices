@@ -20,6 +20,11 @@ services:
       timeout: 5s
       retries: 10
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
 
   # Database postgreSQL
   consumer-postgres-db:
@@ -41,6 +46,11 @@ services:
       timeout: 5s
       retries: 10
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
 
   # Currency rates client
   client:
@@ -88,6 +98,11 @@ services:
       timeout: 5s
       retries: 10
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
 
   # Currency rates consumer
   consumer:
@@ -132,6 +147,11 @@ services:
       timeout: 5s
       retries: 10
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
 
   # Currency rates provider
   provider:
@@ -170,6 +190,11 @@ services:
       timeout: 5s
       retries: 10
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
 
   # NBU service
   nbu-service:
@@ -199,6 +224,11 @@ services:
       timeout: 5s
       retries: 10
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
 
   # Monobank service
   monobank-service:
@@ -228,6 +258,11 @@ services:
       timeout: 5s
       retries: 10
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
 
   # Privatbank service
   privatbank-service:
@@ -257,6 +292,11 @@ services:
       timeout: 5s
       retries: 10
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
 
   # Http client
   http-client:
@@ -283,6 +323,11 @@ services:
       timeout: 5s
       retries: 10
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
 
   pgadmin:
     container_name: pgadmin_container
