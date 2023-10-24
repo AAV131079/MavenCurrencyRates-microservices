@@ -1,0 +1,22 @@
+# Port
+server:
+  port: 8080
+
+# App
+spring:
+  application:
+    name: currency-rates-gateway
+  cloud:
+    config:
+      enabled: false
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+# Eureka client
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka}
