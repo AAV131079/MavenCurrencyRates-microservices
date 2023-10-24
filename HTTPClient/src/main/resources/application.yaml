@@ -1,21 +1,19 @@
 # Port
 server:
-  port: 8086
+  port: 8087
 
 # App
 spring:
   application:
-    name: HTTP-CLIENT
+    name: http-client
   cloud:
     config:
       enabled: false
 
 # Eureka client
 eureka:
-  instance:
-    hostname: eureka-client
   client:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://${CONTAINER_NAME}:8761/eureka
+      defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka}

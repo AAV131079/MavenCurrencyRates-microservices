@@ -1,11 +1,11 @@
 # Port
 server:
-  port: 8081
+  port: 8082
 
 # App
 spring:
   application:
-    name: CURRENCY-RATES-CONSUMER
+    name: currency-rates-consumer
   cloud:
     config:
       enabled: false
@@ -33,10 +33,9 @@ spring:
 
 # Eureka client
 eureka:
-  instance:
-    hostname: eureka-client
   client:
-    registerWithEureka: true
-    fetchRegistry: true
     serviceUrl:
-      defaultZone: http://${CONTAINER_NAME}:8761/eureka
+      defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka}
+
+scheduler:
+  cron: '0 0,5,10,15,20,25,30,35,40,45,50,55 * * * *'

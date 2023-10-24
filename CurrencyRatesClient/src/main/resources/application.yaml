@@ -1,11 +1,11 @@
 # Port
 server:
-  port: 8080
+  port: 8081
 
 # App
 spring:
   application:
-    name: CURRENCY-RATES-CLIENT
+    name: currency-rates-client
   cloud:
     config:
       enabled: false
@@ -29,10 +29,8 @@ spring:
 
 # Eureka client
 eureka:
-  instance:
-    hostname: eureka-client
   client:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://${CONTAINER_NAME}:8761/eureka
+      defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka}

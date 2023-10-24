@@ -2,35 +2,11 @@ version: '3.9'
 
 services:
 
-  # Eureka spring
-  service-discovery-server:
-    build:
-      context: .
-      dockerfile: Docker/ServiceDiscoveryServer/Dockerfile
-    image: 'aav13101979/i_service-discovery-server:1.0.0'
-    container_name: service-discovery-server
-    ports:
-      - '8761:8761'
-    networks:
-      - appnet
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://service-discovery-server:8761"]
-      start_period: 1m
-      interval: 5s
-      timeout: 5s
-      retries: 10
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 1G
-
   # Database postgreSQL
   consumer-postgres-db:
     build:
       context: .
-      dockerfile: Docker/Database/Dockerfile
+      dockerfile: Build/Docker/Database/Dockerfile
     image: "aav13101979/i_currency-rates-postgresql-db:1.0.0"
     container_name: currency-rates-postgresql-db
     ports:
@@ -52,13 +28,43 @@ services:
           cpus: '0.5'
           memory: 1G
 
-  # Currency rates client
-  client:
+  # Eureka spring
+  service-discovery-server:
     build:
       context: .
-      dockerfile: Docker/Client/Dockerfile
-    image: "aav13101979/i_currency-rates-client:1.0.0"
-    container_name: currency-rates-client
+      dockerfile: Build/Docker/ServiceDiscoveryServer/Dockerfile
+    image: 'aav13101979/i_service-discovery-server:1.0.0'
+    container_name: service-discovery-server
+    environment:
+      CONTAINER_PORT: 8761
+      CONTAINER_NAME: service-discovery-server
+      DISCOVERY_URL: http://service-discovery-server:8761/eureka/
+    ports:
+      - '8761:8761'
+    networks:
+      - appnet
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://service-discovery-server:8761"]
+      start_period: 1m30s
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+
+  # Gateway
+  gateway:
+    build:
+      context: .
+      dockerfile: Build/Docker/Gateway/Dockerfile
+    image: 'aav13101979/i_currency-rates-gateway:1.0.0'
+    container_name: currency-rates-gateway
+    environment:
+      DISCOVERY_URL: http://service-discovery-server:8761/eureka/
     ports:
       - '8080:8080'
     networks:
@@ -66,24 +72,22 @@ services:
     links:
       - service-discovery-server
       - consumer-postgres-db
-      - http-client
       - consumer
       - provider
+      - http-client
       - nbu-service
       - monobank-service
       - privatbank-service
-    environment:
-      CONTAINER_NAME: service-discovery-server
     depends_on:
       service-discovery-server:
         condition: service_healthy
       consumer-postgres-db:
         condition: service_healthy
-      http-client:
-        condition: service_healthy
       consumer:
         condition: service_healthy
       provider:
+        condition: service_healthy
+      http-client:
         condition: service_healthy
       nbu-service:
         condition: service_healthy
@@ -92,7 +96,7 @@ services:
       privatbank-service:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://client:8080/actuator/health" ]
+      test: ["CMD", "curl", "-f", "http://gateway:8080/actuator/health"]
       start_period: 1m
       interval: 5s
       timeout: 5s
@@ -104,13 +108,15 @@ services:
           cpus: '0.5'
           memory: 1G
 
-  # Currency rates consumer
-  consumer:
+  # Client
+  client:
     build:
       context: .
-      dockerfile: Docker/Consumer/Dockerfile
-    image: "aav13101979/i_currency-rates-consumer:1.0.0"
-    container_name: currency-rates-consumer
+      dockerfile: Build/Docker/Client/Dockerfile
+    image: "aav13101979/i_currency-rates-client:1.0.0"
+    container_name: currency-rates-client
+    environment:
+      DISCOVERY_URL: http://service-discovery-server:8761/eureka/
     ports:
       - '8081:8081'
     networks:
@@ -118,21 +124,22 @@ services:
     links:
       - service-discovery-server
       - consumer-postgres-db
-      - http-client
+      - consumer
       - provider
+      - http-client
       - nbu-service
       - monobank-service
       - privatbank-service
-    environment:
-      CONTAINER_NAME: service-discovery-server
     depends_on:
       service-discovery-server:
         condition: service_healthy
       consumer-postgres-db:
         condition: service_healthy
-      http-client:
+      consumer:
         condition: service_healthy
       provider:
+        condition: service_healthy
+      http-client:
         condition: service_healthy
       nbu-service:
         condition: service_healthy
@@ -141,7 +148,7 @@ services:
       privatbank-service:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://consumer:8081/actuator/health" ]
+      test: [ "CMD", "curl", "-f", "http://client:8081/actuator/health" ]
       start_period: 1m
       interval: 5s
       timeout: 5s
@@ -153,15 +160,66 @@ services:
           cpus: '0.5'
           memory: 1G
 
-  # Currency rates provider
+  # Consumer
+  consumer:
+    build:
+      context: .
+      dockerfile: Build/Docker/Consumer/Dockerfile
+    image: "aav13101979/i_currency-rates-consumer:1.0.0"
+    container_name: currency-rates-consumer
+    environment:
+      DISCOVERY_URL: http://service-discovery-server:8761/eureka/
+    ports:
+      - '8082:8082'
+    networks:
+      - appnet
+    links:
+      - service-discovery-server
+      - consumer-postgres-db
+      - provider
+      - http-client
+      - nbu-service
+      - monobank-service
+      - privatbank-service
+    depends_on:
+      service-discovery-server:
+        condition: service_healthy
+      consumer-postgres-db:
+        condition: service_healthy
+      provider:
+        condition: service_healthy
+      http-client:
+        condition: service_healthy
+      nbu-service:
+        condition: service_healthy
+      monobank-service:
+        condition: service_healthy
+      privatbank-service:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://consumer:8082/actuator/health" ]
+      start_period: 1m
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+
+  # Provider
   provider:
     build:
       context: .
-      dockerfile: Docker/Provider/Dockerfile
+      dockerfile: Build/Docker/Provider/Dockerfile
     image: "aav13101979/i_currency-rates-provider:1.0.0"
     container_name: currency-rates-provider
+    environment:
+      DISCOVERY_URL: http://service-discovery-server:8761/eureka/
     ports:
-      - '8082:8082'
+      - '8083:8083'
     networks:
       - appnet
     links:
@@ -170,8 +228,6 @@ services:
       - nbu-service
       - privatbank-service
       - monobank-service
-    environment:
-      CONTAINER_NAME: service-discovery-server
     depends_on:
       service-discovery-server:
         condition: service_healthy
@@ -184,7 +240,38 @@ services:
       monobank-service:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://provider:8082/actuator/health" ]
+      test: [ "CMD", "curl", "-f", "http://provider:8083/actuator/health" ]
+      start_period: 1m
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+
+  # Http client
+  http-client:
+    build:
+      context: .
+      dockerfile: Build/Docker/HTTPClient/Dockerfile
+    image: "aav13101979/i_http-client:1.0.0"
+    container_name: http-client
+    environment:
+      DISCOVERY_URL: http://service-discovery-server:8761/eureka/
+    ports:
+      - '8087:8087'
+    networks:
+      - appnet
+    links:
+      - service-discovery-server
+    depends_on:
+      service-discovery-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://http-client:8087/actuator/health"]
       start_period: 1m
       interval: 5s
       timeout: 5s
@@ -200,25 +287,25 @@ services:
   nbu-service:
     build:
       context: .
-      dockerfile: Docker/NBU/Dockerfile
+      dockerfile: Build/Docker/NBU/Dockerfile
     image: "aav13101979/i_nbu-service:1.0.0"
     container_name: nbu-service
+    environment:
+      DISCOVERY_URL: http://service-discovery-server:8761/eureka/
     ports:
-      - '8083:8083'
+      - '8084:8084'
     networks:
       - appnet
     links:
       - service-discovery-server
       - http-client
-    environment:
-      CONTAINER_NAME: service-discovery-server
     depends_on:
       service-discovery-server:
         condition: service_healthy
       http-client:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://nbu-service:8083/actuator/health" ]
+      test: [ "CMD", "curl", "-f", "http://nbu-service:8084/actuator/health" ]
       start_period: 1m30s
       interval: 5s
       timeout: 5s
@@ -232,93 +319,62 @@ services:
 
   # Monobank service
   monobank-service:
-    build:
+   build:
       context: .
-      dockerfile: Docker/Monobank/Dockerfile
-    image: "aav13101979/i_monobank-service:1.0.0"
-    container_name: monobank-service
-    ports:
-      - '8085:8085'
-    networks:
-      - appnet
-    links:
-      - service-discovery-server
-      - http-client
-    environment:
-      CONTAINER_NAME: service-discovery-server
-    depends_on:
-      service-discovery-server:
-        condition: service_healthy
-      http-client:
-        condition: service_healthy
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://monobank-service:8085/actuator/health" ]
-      start_period: 1m30s
-      interval: 5s
-      timeout: 5s
-      retries: 10
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 1G
+      dockerfile: Build/Docker/Monobank/Dockerfile
+   image: "aav13101979/i_monobank-service:1.0.0"
+   container_name: monobank-service
+   environment:
+     DISCOVERY_URL: http://service-discovery-server:8761/eureka/
+   ports:
+     - '8085:8085'
+   networks:
+     - appnet
+   links:
+     - service-discovery-server
+     - http-client
+   depends_on:
+     service-discovery-server:
+       condition: service_healthy
+     http-client:
+       condition: service_healthy
+   healthcheck:
+     test: [ "CMD", "curl", "-f", "http://monobank-service:8085/actuator/health" ]
+     start_period: 1m30s
+     interval: 5s
+     timeout: 5s
+     retries: 10
+   restart: unless-stopped
+   deploy:
+     resources:
+       limits:
+         cpus: '0.5'
+         memory: 1G
 
   # Privatbank service
   privatbank-service:
     build:
       context: .
-      dockerfile: Docker/Privatbank/Dockerfile
+      dockerfile: Build/Docker/Privatbank/Dockerfile
     image: "aav13101979/i_privarbank-service:1.0.0"
     container_name: privatbank-service
-    ports:
-      - '8084:8084'
-    networks:
-      - appnet
-    links:
-      - service-discovery-server
-      - http-client
     environment:
-      CONTAINER_NAME: service-discovery-server
-    depends_on:
-      service-discovery-server:
-        condition: service_healthy
-      http-client:
-        condition: service_healthy
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://privatbank-service:8084/actuator/health" ]
-      start_period: 1m30s
-      interval: 5s
-      timeout: 5s
-      retries: 10
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 1G
-
-  # Http client
-  http-client:
-    build:
-      context: .
-      dockerfile: Docker/HTTPClient/Dockerfile
-    image: "aav13101979/i_http-client:1.0.0"
-    container_name: http-client
+      DISCOVERY_URL: http://service-discovery-server:8761/eureka/
     ports:
       - '8086:8086'
     networks:
       - appnet
     links:
       - service-discovery-server
-    environment:
-      CONTAINER_NAME: service-discovery-server
+      - http-client
     depends_on:
       service-discovery-server:
         condition: service_healthy
+      http-client:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://http-client:8086/actuator/health"]
-      start_period: 1m
+      test: [ "CMD", "curl", "-f", "http://privatbank-service:8086/actuator/health" ]
+      start_period: 1m30s
       interval: 5s
       timeout: 5s
       retries: 10
@@ -329,6 +385,7 @@ services:
           cpus: '0.5'
           memory: 1G
 
+  # PGAdmin
   pgadmin:
     container_name: pgadmin_container
     image: dpage/pgadmin4:7.2
