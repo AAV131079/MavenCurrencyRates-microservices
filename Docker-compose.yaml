@@ -74,6 +74,7 @@ services:
       - consumer-postgres-db
       - consumer
       - provider
+      - client
       - http-client
       - nbu-service
       - monobank-service
@@ -86,6 +87,8 @@ services:
       consumer:
         condition: service_healthy
       provider:
+        condition: service_healthy
+      client:
         condition: service_healthy
       http-client:
         condition: service_healthy
