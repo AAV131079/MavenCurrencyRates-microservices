@@ -11,4 +11,9 @@ public class RequestDTO {
 
     private String url;
 
+    @Override
+    public String toString() {
+        return String.format("{%s}", getUrl());
+    }
+
 }

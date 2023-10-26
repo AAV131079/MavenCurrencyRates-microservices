@@ -2,7 +2,8 @@ package com.httpclient.controller;
 
 import com.httpclient.dto.request.RequestDTO;
 import com.httpclient.dto.response.ErrorClientResponseDTO;
-import com.httpclient.service.HttpClientServiceImpl;
+import com.httpclient.service.HttpClientService;
+import com.httpclient.service.IHttpClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -21,10 +23,10 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class HttpClientController implements  IHttpClientController {
 
-    private final HttpClientServiceImpl httpClientServiceImpl;
+    private final IHttpClientService httpClientService;
 
-    public HttpClientController(HttpClientServiceImpl httpClientServiceImpl) {
-        this.httpClientServiceImpl = httpClientServiceImpl;
+    public HttpClientController(HttpClientService httpClientService) {
+        this.httpClientService = httpClientService;
     }
 
     @Operation(summary = "Get a data from remote services.",
@@ -38,11 +40,11 @@ public class HttpClientController implements  IHttpClientController {
                     content = @Content(schema = @Schema(implementation = ErrorClientResponseDTO.class)))
     })
     @Override
-    @GetMapping(value = "/get/currencyrates", produces = "application/json")
-    public @ResponseBody String getServiceResponse(@RequestBody RequestDTO request) throws IOException {
-        log.info("HttpClientService::getServiceResponse", request.toString());
-        String response =  httpClientServiceImpl.getServiceResponse(request.getUrl());
-        log.info(response);
+    @GetMapping(value = "/get/currency-rates", produces = "application/json")
+    public String getServiceResponse(@RequestBody RequestDTO request) throws IOException {
+        log.info("{HttpClientController}");
+        log.info(String.format("RequestBody: %s", request.toString()));
+        String response =  httpClientService.getServiceResponse(request.getUrl());
         return response;
     }
 

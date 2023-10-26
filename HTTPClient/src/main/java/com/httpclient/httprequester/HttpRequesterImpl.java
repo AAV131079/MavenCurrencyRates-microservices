@@ -25,14 +25,13 @@ public class HttpRequesterImpl implements IHttpRequester {
         connection.setRequestMethod("GET");
         connection.setRequestProperty("User-Agent", USER_AGENT);
         try (BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-            log.info("Sending 'GET' request to URL: " + serviceUrl);
+            log.info(String.format("Sending 'GET' request to URL: %s", serviceUrl));
             String inputLine;
             response.delete(0, response.length());
             while ((inputLine = input.readLine()) != null) {
                 response.append(inputLine);
             }
-            log.info("Response Code : " + connection.getResponseCode());
-            log.info("Service response: " + response.toString());
+            log.info(String.format("Response Code : %s", connection.getResponseCode()));
             return response.toString();
         }
     }

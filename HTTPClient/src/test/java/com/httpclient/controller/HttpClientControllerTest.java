@@ -1,6 +1,6 @@
 package com.httpclient.controller;
 
-import com.httpclient.service.HttpClientServiceImpl;
+import com.httpclient.service.HttpClientService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -19,14 +19,14 @@ class HttpClientControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private HttpClientServiceImpl httpClientServiceImpl;
+    private HttpClientService httpClientService;
 
     @Test
     void getServiceResponse() throws Exception {
 
         mockMvc.perform
                 (
-                    get("/api/get/currencyrates")
+                    get("/api/get/currency-rates")
                             .content("{\"url\": \"https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5\"}")
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON)
