@@ -35,4 +35,18 @@ public class CurrencyRatesEntity {
     public CurrencyRatesEntity() {
     }
 
+    @Override
+    public String toString() {
+        return new StringBuilder()
+                .append("CurrencyRatesEntity{")
+                .append("id=").append(id)
+                .append(", providerType=").append(providerType)
+                .append(", currencyType=").append(currencyType)
+                .append(", buy=").append(buy)
+                .append(", sale=").append(sale)
+                .append(", createTime=").append(createTime)
+                .append('}')
+                .toString();
+    }
+
 }
