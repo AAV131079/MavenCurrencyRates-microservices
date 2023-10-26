@@ -5,7 +5,7 @@ import com.currencyratesclient.dto.Response.BaseClientResponseDTO;
 import com.currencyratesclient.dto.Response.ErrorClientResponseDTO;
 import com.currencyratesclient.dto.Response.FullClientResponseDTO;
 import com.currencyratesclient.dto.Response.ShortClientResponseDTO;
-import com.currencyratesclient.service.ClientService;
+import com.currencyratesclient.service.IClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -29,9 +29,9 @@ import java.util.Map;
 @RequestMapping("/rates")
 public class ClientController implements IClientController {
 
-     private final ClientService clientService;
+     private final IClientService clientService;
 
-    public ClientController(ClientService clientService) {
+    public ClientController(IClientService clientService) {
         this.clientService = clientService;
     }
 
@@ -51,7 +51,8 @@ public class ClientController implements IClientController {
     @Override
     @GetMapping("/current")
     public @ResponseBody ResponseEntity<BaseClientResponseDTO> getForCurrentDay() {
-        log.info("ClientController::getForCurrentDay", "/rates/current", "GET");
+        log.info("{ClientController}");
+        log.info("Uri: /rates/current, type: GET");
         Map<BaseClientResponseDTO, HttpStatus> result = clientService.getForCurrentDay();
         ResponseEntity<BaseClientResponseDTO> responseEntity = new ResponseEntity<>(
                 (BaseClientResponseDTO) result.keySet().toArray()[0],
@@ -81,7 +82,8 @@ public class ClientController implements IClientController {
     @Override
     @GetMapping("/period")
     public @ResponseBody ResponseEntity<BaseClientResponseDTO> getForPeriodJson(@org.springframework.web.bind.annotation.RequestBody RequestDTO requestDTO) {
-        log.info("ClientController::getForPeriodJson", "/rates/period", "GET", "@RequestBody RequestDTO.class");
+        log.info("{ClientController}");
+        log.info("Uri: /rates/period, type: GET, RequestBody: RequestDTO.class");
         Map<BaseClientResponseDTO, HttpStatus> result = clientService.getForPeriod(requestDTO.getStartDate(), requestDTO.getFinishDate());
         ResponseEntity<BaseClientResponseDTO> responseEntity = new ResponseEntity<>(
                 (BaseClientResponseDTO) result.keySet().toArray()[0],
@@ -127,7 +129,8 @@ public class ClientController implements IClientController {
     @Override
     @GetMapping("/period/start={startDate}/finish={finishDate}")
     public @ResponseBody ResponseEntity<BaseClientResponseDTO> getForPeriodUrl(@PathVariable String startDate, @PathVariable String finishDate) {
-        log.info("ClientController::getForPeriodUrl", "/rates/period/start={startDate}/finish={finishDate}", "GET", "@PathVariable String startDate, @PathVariable String finishDate");
+        log.info("{ClientController}");
+        log.info("Uri: /rates/period/start={startDate}/finish={finishDate}, type: GET, PathVariable: String startDate, PathVariable: String finishDate");
         Map<BaseClientResponseDTO, HttpStatus> result = clientService.getForPeriod(startDate, finishDate);
         ResponseEntity<BaseClientResponseDTO> responseEntity = new ResponseEntity<>(
                 (BaseClientResponseDTO) result.keySet().toArray()[0],
