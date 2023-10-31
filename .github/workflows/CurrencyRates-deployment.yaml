@@ -1,0 +1,37 @@
+name: CurrencyRates with Maven. CI/CD.
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+    types: [opened, edited, reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Access to repository.
+        uses: actions/checkout@v4
+      - name: Set up JDK 19.
+        uses: actions/setup-java@v3
+        with:
+          java-version: '19'
+          distribution: 'oracle'
+      - name: Build all dependency modules and run tests.
+        run: mvn -B package --file pom.xml
+      - name: Upload Artifacts for all modules.
+        uses: actions/upload-artifact@v3
+        with:
+          path: build
+          name: build-files
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get build artifacts for all modules.
+        uses: actions/download-artifact@v3
+        with:
+          name: build-files
