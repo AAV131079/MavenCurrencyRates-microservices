@@ -20,14 +20,15 @@ jobs:
         with:
           java-version: '19'
           distribution: 'oracle'
-      - name: Build all dependency modules and run tests.
-        run: mvn -B package --file pom.xml
-      - name: Copy all jar files
-        run: mkdir target && cp target/*.jar target
+          cash: maven
+      - name: Build HTTPClient and run tests.
+        run: mvn -B package --file HTTPClient/pom.xml
+      - name: Copy HTTPClient jar file
+        run: mkdir package && cp HTTPClient/target/*.jar package
       - name: Upload Artifacts for all modules.
         uses: actions/upload-artifact@v3
         with:
-          path: target
+          path: package
           name: jar-files
   deploy:
     needs: build
