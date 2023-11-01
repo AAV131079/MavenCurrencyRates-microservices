@@ -28,10 +28,12 @@ jobs:
           cache: maven
       - name: Build service and run tests
         run: mvn -B package --file ${{env.HTTPCLIENT_PATH}}pom.xml
+      - name: Copy jar file
+        run: mkdir package && cp ${{env.HTTPCLIENT_PATH}}target/*.jar package
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          path: target
+          path: package
           name: jar-files
           retention-days: 5
 
@@ -48,10 +50,12 @@ jobs:
           cache: maven
       - name: Build service and run tests
         run: mvn -B package --file ${{ env.PRIVATBANK_SERVICE_PATH }}pom.xml
+      - name: Copy jar file
+        run: mkdir package && cp ${{env.PRIVATBANK_SERVICE_PATH}}target/*.jar package
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          path: target
+          path: package
           name: jar-files
           retention-days: 5
 
@@ -62,5 +66,5 @@ jobs:
       - name: Get build artifacts for all modules.
         uses: actions/download-artifact@v3
         with:
-          path: target
+          path: package
           name: jar-files
