@@ -1,16 +1,22 @@
 name: CurrencyRates with Maven. CI/CD.
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
+    paths-ignore:
+      - '.github/workflows/*'
   pull_request:
     branches:
       - master
+    paths-ignore:
+      - '.github/workflows/*'
     types:
       - opened
       - edited
       - reopened
+
 
 env:
   JAVA: '19'
