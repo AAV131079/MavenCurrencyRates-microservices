@@ -9,29 +9,56 @@ on:
       - master
     types: [opened, edited, reopened]
 
+env:
+  HTTPCLIENT_PATH: ./HTTPClient/
+  PRIVATBANK_SERVICE_PATH: ./PrivatbankService/
+
 jobs:
-  build:
+
+  build_HTTPClient_service:
     runs-on: ubuntu-latest
     steps:
-      - name: Access to repository.
+      - name: Copy project from repository
         uses: actions/checkout@v4
-      - name: Set up JDK 19.
+      - name: Set up Java and Maven
         uses: actions/setup-java@v3
         with:
           java-version: '19'
           distribution: 'oracle'
-          cash: maven
-      - name: Build HTTPClient and run tests.
-        run: mvn -B package --file HTTPClient/pom.xml
-      - name: Copy HTTPClient jar file
-        run: mkdir package && cp HTTPClient/target/*.jar package
-      - name: Upload Artifacts for all modules.
+          cache: maven
+      - name: Build service and run tests
+        run: mvn -B package --file ${{env.HTTPCLIENT_PATH}}pom.xml
+      - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          path: package
+          path: target
           name: jar-files
-  deploy:
-    needs: build
+          retention-days: 5
+
+  build_PrivatbankService_service:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copy project from repository
+        uses: actions/checkout@v4
+      - name: Set up Java and Maven
+        uses: actions/setup-java@v3
+        with:
+          java-version: '19'
+          distribution: 'oracle'
+          cache: maven
+      - name: Build service and run tests
+        run: mvn -B package --file ${{ env.PRIVATBANK_SERVICE_PATH }}pom.xml
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          path: target
+          name: jar-files
+          retention-days: 5
+
+  deploy_MavenCurrencyRates:
+    needs: |
+      [build_HTTPClient_service,
+      build_PrivatbankService_service]
     runs-on: ubuntu-latest
     steps:
       - name: Get build artifacts for all modules.
