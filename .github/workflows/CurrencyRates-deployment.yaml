@@ -25,7 +25,7 @@ jobs:
       - name: Upload Artifacts for all modules.
         uses: actions/upload-artifact@v3
         with:
-          path: build
+          path: target
           name: build-files
   deploy:
     needs: build
@@ -34,4 +34,4 @@ jobs:
       - name: Get build artifacts for all modules.
         uses: actions/download-artifact@v3
         with:
-          name: build-files
+          name: jar-files
