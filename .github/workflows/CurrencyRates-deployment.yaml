@@ -274,4 +274,3 @@ jobs:
         with:
           path: package
           name: artifacts
-          retention-days: 5
