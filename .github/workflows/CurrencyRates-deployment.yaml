@@ -15,7 +15,7 @@ env:
 
 jobs:
 
-  build_HTTPClient_service:
+  build_httpclient_service:
     runs-on: ubuntu-latest
     steps:
       - name: Copy project from repository
@@ -35,7 +35,7 @@ jobs:
           name: jar-files
           retention-days: 5
 
-  build_PrivatbankService_service:
+  build_privatbank_service:
     runs-on: ubuntu-latest
     steps:
       - name: Copy project from repository
@@ -55,10 +55,8 @@ jobs:
           name: jar-files
           retention-days: 5
 
-  deploy_MavenCurrencyRates:
-    needs: |
-      [build_HTTPClient_service,
-      build_PrivatbankService_service]
+  deploy_currency_rates:
+    needs: [build_httpclient_service, build_privatbank_service]
     runs-on: ubuntu-latest
     steps:
       - name: Get build artifacts for all modules.
