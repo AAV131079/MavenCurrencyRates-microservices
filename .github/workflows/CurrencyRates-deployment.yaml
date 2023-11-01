@@ -22,11 +22,13 @@ jobs:
           distribution: 'oracle'
       - name: Build all dependency modules and run tests.
         run: mvn -B package --file pom.xml
+        with:
+          path: ./target
       - name: Upload Artifacts for all modules.
         uses: actions/upload-artifact@v3
         with:
-          path: target
-          name: build-files
+          path: ./target
+          name: jar-files
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -34,4 +36,5 @@ jobs:
       - name: Get build artifacts for all modules.
         uses: actions/download-artifact@v3
         with:
+          path: ./target
           name: jar-files
