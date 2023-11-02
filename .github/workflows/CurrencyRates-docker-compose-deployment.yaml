@@ -1,0 +1,58 @@
+name: CurrencyRates with Maven. CI/CD. Docker-compose.
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '.github/workflows/*'
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - '.github/workflows/*'
+    types:
+      - opened
+      - edited
+      - reopened
+
+  env:
+    JAVA: '19'
+    DISTRIBUTION: 'oracle'
+    ARCHITECTURE: x64
+
+jobs:
+
+  test_currency_rates:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copy project from repository
+        uses: actions/checkout@v3
+      - name: Set up Java and Maven
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.JAVA }}
+          distribution: ${{ env.DISTRIBUTION }}
+          architecture: ${{ env.ARCHITECTURE }}
+          cache: maven
+      - name: Run project`s tests
+        run: mvn test
+
+  prepare-environment:
+    runs-on: self-hosted
+    needs: test_currency_rates
+    steps:
+      - name: Stop and remove containers, networks
+        run: docker-compose down
+      - name: Remove unused data
+        run: docker system prune -a -f
+
+  deploy:
+    needs: prepare-environment
+    runs-on: self-hosted
+    steps:
+      - name: Copy project from repository
+        uses: actions/checkout@v3
+      - name: Docker-compose up
+        run: docker-compose up -d

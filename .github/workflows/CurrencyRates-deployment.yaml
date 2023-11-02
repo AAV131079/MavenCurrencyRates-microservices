@@ -17,7 +17,6 @@ on:
       - edited
       - reopened
 
-
 env:
   JAVA: '19'
   DISTRIBUTION: 'oracle'
