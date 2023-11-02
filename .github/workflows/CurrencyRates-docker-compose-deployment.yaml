@@ -43,6 +43,8 @@ jobs:
     runs-on: self-hosted
     needs: test_currency_rates
     steps:
+      - name: Copy project from repository
+        uses: actions/checkout@v3
       - name: Stop and remove containers, networks
         run: docker-compose down
       - name: Remove unused data
