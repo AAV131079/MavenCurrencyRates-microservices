@@ -5,7 +5,7 @@ services:
   # Database postgreSQL
   consumer-postgres-db:
     build:
-      context: ./Build/Docker/Database/
+      context: ./Build/Docker/Database
       dockerfile: Dockerfile
     image: "aav13101979/i_currency-rates-postgresql-db:1.0.0"
     container_name: currency-rates-postgresql-db
