@@ -54,7 +54,5 @@ jobs:
     needs: prepare-environment
     runs-on: self-hosted
     steps:
-      - name: Copy project from repository
-        uses: actions/checkout@v3
       - name: Docker-compose up
         run: sudo docker-compose up -d
