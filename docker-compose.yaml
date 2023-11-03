@@ -5,7 +5,8 @@ services:
   # Database postgreSQL
   consumer-postgres-db:
     build:
-      dockerfile: ./Build/Docker/DataBase/Dockerfile
+      context: .
+      dockerfile: Build/Docker/DataBase/Dockerfile
     image: "aav13101979/i_currency-rates-postgresql-db:1.0.0"
     container_name: currency-rates-postgresql-db
     ports:
@@ -30,7 +31,8 @@ services:
   # Eureka spring
   service-discovery-server:
     build:
-      dockerfile: ./Build/Docker/ServiceDiscoveryServer/Dockerfile
+      context: .
+      dockerfile: Build/Docker/ServiceDiscoveryServer/Dockerfile
     image: 'aav13101979/i_service-discovery-server:1.0.0'
     container_name: service-discovery-server
     environment:
@@ -57,7 +59,8 @@ services:
   # Gateway
   gateway:
     build:
-      dockerfile: ./Build/Docker/Gateway/Dockerfile
+      context: .
+      dockerfile: Build/Docker/Gateway/Dockerfile
     image: 'aav13101979/i_currency-rates-gateway:1.0.0'
     container_name: currency-rates-gateway
     environment:
@@ -111,7 +114,8 @@ services:
   # Client
   client:
     build:
-      dockerfile: ./Build/Docker/Client/Dockerfile
+      context: .
+      dockerfile: Build/Docker/Client/Dockerfile
     image: "aav13101979/i_currency-rates-client:1.0.0"
     container_name: currency-rates-client
     environment:
@@ -162,7 +166,8 @@ services:
   # Consumer
   consumer:
     build:
-      dockerfile: ./Build/Docker/Consumer/Dockerfile
+      context: .
+      dockerfile: Build/Docker/Consumer/Dockerfile
     image: "aav13101979/i_currency-rates-consumer:1.0.0"
     container_name: currency-rates-consumer
     environment:
@@ -210,7 +215,8 @@ services:
   # Provider
   provider:
     build:
-      dockerfile: ./Build/Docker/Provider/Dockerfile
+      context: .
+      dockerfile: Build/Docker/Provider/Dockerfile
     image: "aav13101979/i_currency-rates-provider:1.0.0"
     container_name: currency-rates-provider
     environment:
@@ -252,7 +258,8 @@ services:
   # Http client
   http-client:
     build:
-      dockerfile: ./Build/Docker/HTTPClient/Dockerfile
+      context: .
+      dockerfile: Build/Docker/HTTPClient/Dockerfile
     image: "aav13101979/i_http-client:1.0.0"
     container_name: http-client
     environment:
@@ -282,7 +289,8 @@ services:
   # NBU service
   nbu-service:
     build:
-      dockerfile: ./Build/Docker/NBU/Dockerfile
+      context: .
+      dockerfile: Build/Docker/NBU/Dockerfile
     image: "aav13101979/i_nbu-service:1.0.0"
     container_name: nbu-service
     environment:
@@ -315,7 +323,8 @@ services:
   # Monobank service
   monobank-service:
    build:
-      dockerfile: ./Build/Docker/Monobank/Dockerfile
+      context: .
+      dockerfile: Build/Docker/Monobank/Dockerfile
    image: "aav13101979/i_monobank-service:1.0.0"
    container_name: monobank-service
    environment:
@@ -348,7 +357,8 @@ services:
   # Privatbank service
   privatbank-service:
     build:
-      dockerfile: ./Build/Docker/Privatbank/Dockerfile
+      context: .
+      dockerfile: Build/Docker/Privatbank/Dockerfile
     image: "aav13101979/i_privarbank-service:1.0.0"
     container_name: privatbank-service
     environment:
