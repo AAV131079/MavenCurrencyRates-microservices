@@ -81,7 +81,7 @@ jobs:
           cp ${{ env.NBU_SERVICE_PATH }}target/*.jar package &&
           cp ${{ env.CURRENCY_RATES_PROVIDER_PATH }}target/*.jar package &&
           cp ${{ env.CURRENCY_RATES_CONSUMER_PATH }}target/*.jar package &&
-          cp ${{ env.CURRENCY_RATES_CLIENT_PATH }}target/*.jar package &&
+          cp ${{ env.CURRENCY_RATES_CLIENT_PATH }}target/*.jar package
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
