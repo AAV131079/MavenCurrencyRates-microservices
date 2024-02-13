@@ -3,9 +3,11 @@ WORKDIR /app
 COPY . .
 RUN mvn clean
 RUN mvn package
-FROM openjdk:19-jdk-alpine AS i_currency-rates-provider
+FROM amazoncorretto:19-alpine AS i_currency-rates-provider
 RUN apk update
 RUN apk add curl
-COPY --from=MAVEN_BUILD /app/CurrencyRatesProvider/target/currencyratesprovider-1.0.0.jar currencyratesprovider.jar
+RUN apk add --no-cache tzdata
+COPY --from=MAVEN_BUILD /app/CurrencyRatesServices/ApplicationServices/CurrencyRatesProvider/target/currencyratesprovider-1.0.0.jar currencyratesprovider.jar
 EXPOSE 8082
+ENV TZ="Europe/Kiev"
 ENTRYPOINT ["java", "-jar", "currencyratesprovider.jar"]

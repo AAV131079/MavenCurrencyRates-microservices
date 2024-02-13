@@ -1,0 +1,23 @@
+# Port
+server:
+  port: 8084
+
+# App
+spring:
+  application:
+    name: nbu-service
+  cloud:
+    config:
+      enabled: false
+  main:
+    allow-bean-definition-overriding:
+      true
+
+# Eureka client
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka}
+

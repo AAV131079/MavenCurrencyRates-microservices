@@ -1,5 +1,5 @@
 ### Currency rates for current date
-GET http://localhost:8080/rates/current
+GET http://localhost:8080/currency-rates-consumer/rates/current
 Accept: application/json
 
 ### Currency rates for period
