@@ -21,19 +21,36 @@ env:
   JAVA: '19'
   DISTRIBUTION: 'oracle'
   ARCHITECTURE: x64
-  CURRENCY_RATES_GATEWAY_PATH: ./CurrencyRatesGateway/
-  SERVICE_DISCOVERY_SERVER_PATH: ./ServiceDiscoveryServer/
-  HTTPCLIENT_PATH: ./HTTPClient/
-  PRIVATBANK_SERVICE_PATH: ./PrivatbankService/
-  MONOBANK_SERVICE_PATH: ./MonobankService/
-  NBU_SERVICE_PATH: ./NBUService/
-  CURRENCY_RATES_PROVIDER_PATH: ./CurrencyRatesProvider/
-  CURRENCY_RATES_CONSUMER_PATH: ./CurrencyRatesConsumer/
-  CURRENCY_RATES_CLIENT_PATH: ./CurrencyRatesClient/
+
+  CURRENCY_RATES_GATEWAY_PATH: ./CurrencyRatesServices/UtilityServices/CurrencyRatesGateway/
+  SERVICE_DISCOVERY_SERVER_PATH: ./CurrencyRatesServices/UtilityServices/ServiceDiscoveryServer/
+  HTTPCLIENT_PATH: ./CurrencyRatesServices/ApplicationServices/HTTPClient/
+  PRIVATBANK_SERVICE_PATH: ./CurrencyRatesServices/ApplicationServices/PrivatbankService/
+  MONOBANK_SERVICE_PATH: ./CurrencyRatesServices/ApplicationServices/MonobankService/
+  NBU_SERVICE_PATH: ./CurrencyRatesServices/ApplicationServices/NBUService/
+  CURRENCY_RATES_PROVIDER_PATH: ./CurrencyRatesServices/ApplicationServices/CurrencyRatesProvider/
+  CURRENCY_RATES_CONSUMER_PATH: ./CurrencyRatesServices/ApplicationServices/CurrencyRatesConsumer/
+  CURRENCY_RATES_CLIENT_PATH: ./CurrencyRatesServices/ApplicationServices/CurrencyRatesClient/
+
+  CURRENCY_RATES_EXCEPTION_HANDLER_PATH : ./ExceptionHandler/
+  CURRENCY_RATES_HELPERS_PATH : ./CurrencyRatesLibraries/Helpers/
+  CURRENCY_RATES_DTO_PATH : ./CurrencyRatesLibraries/DTO/
+  CURRENCY_RATES_DAO_PATH : ./CurrencyRatesLibraries/DAO/
+  CURRENCY_RATES_ENUMERATORS_PATH : ./CurrencyRatesLibraries/Enumerators/
+  CURRENCY_RATES_INTERFACES_PATH : ./CurrencyRatesLibraries/Interfaces/
+  CURRENCY_RATES_REPOSITORY_PATH : ./CurrencyRatesLibraries/Repository/
+
+  CURRENCY_RATES_EXCEPTION_HANDLER_FILENAME : exceptionhandler-1.0.0.jar
+  CURRENCY_RATES_HELPERS_FILENAME : helpers-1.0.0.jar
+  CURRENCY_RATES_DTO_FILENAME : dto-1.0.0.jar
+  CURRENCY_RATES_DAO_FILENAME : dao-1.0.0.jar
+  CURRENCY_RATES_ENUMERATORS_FILENAME : enumerators-1.0.0.jar
+  CURRENCY_RATES_INTERFACES_FILENAME : interfaces-1.0.0.jar
+  CURRENCY_RATES_REPOSITORY_FILENAME : repository-1.0.0.jar
 
 jobs:
 
-  build_currency_rates_gateway:
+  clean-and-package-currency-rates-app:
     runs-on: ubuntu-latest
     steps:
       - name: Copy project from repository
@@ -45,233 +62,36 @@ jobs:
           distribution: ${{ env.DISTRIBUTION }}
           architecture: ${{ env.ARCHITECTURE }}
           cache: maven
-      - name: Build service and run tests
-        run: mvn -B package --file ${{env.CURRENCY_RATES_GATEWAY_PATH}}pom.xml
+      - name: Clean and package project and run tests
+        run: mvn clean package --file ./pom.xml
       - name: Copy jar file
-        run: mkdir package && cp ${{env.CURRENCY_RATES_GATEWAY_PATH}}target/*.jar package
+        run: mkdir package &&
+          cp ${{ env.CURRENCY_RATES_EXCEPTION_HANDLER_PATH }}target/${{ env.CURRENCY_RATES_EXCEPTION_HANDLER_FILENAME }} package &&
+          cp ${{ env.CURRENCY_RATES_HELPERS_PATH }}target/${{ env.CURRENCY_RATES_HELPERS_FILENAME }} package &&
+          cp ${{ env.CURRENCY_RATES_DTO_PATH }}target/${{ env.CURRENCY_RATES_DTO_FILENAME }} package &&
+          cp ${{ env.CURRENCY_RATES_DAO_PATH }}target/${{ env.CURRENCY_RATES_DAO_FILENAME }} package &&
+          cp ${{ env.CURRENCY_RATES_ENUMERATORS_PATH }}target/${{ env.CURRENCY_RATES_ENUMERATORS_FILENAME }} package &&
+          cp ${{ env.CURRENCY_RATES_INTERFACES_PATH }}target/${{ env.CURRENCY_RATES_INTERFACES_FILENAME }} package &&
+          cp ${{ env.CURRENCY_RATES_REPOSITORY_PATH }}target/${{ env.CURRENCY_RATES_REPOSITORY_FILENAME }} package &&
+          cp ${{ env.CURRENCY_RATES_GATEWAY_PATH }}target/*.jar package &&
+          cp ${{ env.SERVICE_DISCOVERY_SERVER_PATH }}target/*.jar package &&
+          cp ${{ env.HTTPCLIENT_PATH }}target/*.jar package &&
+          cp ${{ env.PRIVATBANK_SERVICE_PATH }}target/*.jar package &&
+          cp ${{ env.MONOBANK_SERVICE_PATH }}target/*.jar package &&
+          cp ${{ env.NBU_SERVICE_PATH }}target/*.jar package &&
+          cp ${{ env.CURRENCY_RATES_PROVIDER_PATH }}target/*.jar package &&
+          cp ${{ env.CURRENCY_RATES_CONSUMER_PATH }}target/*.jar package &&
+          cp ${{ env.CURRENCY_RATES_CLIENT_PATH }}target/*.jar package &&
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           path: package
           name: artifacts
-          retention-days: 5
-
-  build_service_discovery_server:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Copy project from repository
-        uses: actions/checkout@v4
-      - name: Set up Java and Maven
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ env.JAVA }}
-          distribution: ${{ env.DISTRIBUTION }}
-          architecture: ${{ env.ARCHITECTURE }}
-          cache: maven
-      - name: Build service and run tests
-        run: mvn -B package --file ${{env.SERVICE_DISCOVERY_SERVER_PATH}}pom.xml
-      - name: Copy jar file
-        run: mkdir package && cp ${{env.SERVICE_DISCOVERY_SERVER_PATH}}target/*.jar package
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          path: package
-          name: artifacts
-          retention-days: 5
-
-  build_httpclient_service:
-    needs:
-      - build_currency_rates_gateway
-      - build_service_discovery_server
-    runs-on: ubuntu-latest
-    steps:
-      - name: Copy project from repository
-        uses: actions/checkout@v4
-      - name: Set up Java and Maven
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ env.JAVA }}
-          distribution: ${{ env.DISTRIBUTION }}
-          architecture: ${{ env.ARCHITECTURE }}
-          cache: maven
-      - name: Build service and run tests
-        run: mvn -B package --file ${{env.HTTPCLIENT_PATH}}pom.xml
-      - name: Copy jar file
-        run: mkdir package && cp ${{env.HTTPCLIENT_PATH}}target/*.jar package
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          path: package
-          name: artifacts
-          retention-days: 5
-
-  build_privatbank_service:
-    needs:
-      - build_currency_rates_gateway
-      - build_service_discovery_server
-    runs-on: ubuntu-latest
-    steps:
-      - name: Copy project from repository
-        uses: actions/checkout@v4
-      - name: Set up Java and Maven
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ env.JAVA }}
-          distribution: ${{ env.DISTRIBUTION }}
-          architecture: ${{ env.ARCHITECTURE }}
-          cache: maven
-      - name: Build service and run tests
-        run: mvn -B package --file ${{ env.PRIVATBANK_SERVICE_PATH }}pom.xml
-      - name: Copy jar file
-        run: mkdir package && cp ${{env.PRIVATBANK_SERVICE_PATH}}target/*.jar package
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          path: package
-          name: artifacts
-          retention-days: 5
-
-  build_monobank_service:
-    needs:
-      - build_currency_rates_gateway
-      - build_service_discovery_server
-    runs-on: ubuntu-latest
-    steps:
-      - name: Copy project from repository
-        uses: actions/checkout@v4
-      - name: Set up Java and Maven
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ env.JAVA }}
-          distribution: ${{ env.DISTRIBUTION }}
-          architecture: ${{ env.ARCHITECTURE }}
-          cache: maven
-      - name: Build service and run tests
-        run: mvn -B package --file ${{ env.MONOBANK_SERVICE_PATH }}pom.xml
-      - name: Copy jar file
-        run: mkdir package && cp ${{env.MONOBANK_SERVICE_PATH}}target/*.jar package
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          path: package
-          name: artifacts
-          retention-days: 5
-
-  build_nbu_service:
-    needs:
-      - build_currency_rates_gateway
-      - build_service_discovery_server
-    runs-on: ubuntu-latest
-    steps:
-      - name: Copy project from repository
-        uses: actions/checkout@v4
-      - name: Set up Java and Maven
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ env.JAVA }}
-          distribution: ${{ env.DISTRIBUTION }}
-          architecture: ${{ env.ARCHITECTURE }}
-          cache: maven
-      - name: Build service and run tests
-        run: mvn -B package --file ${{ env.NBU_SERVICE_PATH }}pom.xml
-      - name: Copy jar file
-        run: mkdir package && cp ${{env.NBU_SERVICE_PATH}}target/*.jar package
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          path: package
-          name: artifacts
-          retention-days: 5
-
-  build_currency_rates_provider:
-    needs:
-      - build_currency_rates_gateway
-      - build_service_discovery_server
-    runs-on: ubuntu-latest
-    steps:
-      - name: Copy project from repository
-        uses: actions/checkout@v4
-      - name: Set up Java and Maven
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ env.JAVA }}
-          distribution: ${{ env.DISTRIBUTION }}
-          architecture: ${{ env.ARCHITECTURE }}
-          cache: maven
-      - name: Build service and run tests
-        run: mvn -B package --file ${{ env.CURRENCY_RATES_PROVIDER_PATH }}pom.xml
-      - name: Copy jar file
-        run: mkdir package && cp ${{env.CURRENCY_RATES_PROVIDER_PATH}}target/*.jar package
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          path: package
-          name: artifacts
-          retention-days: 5
-
-  build_currency_rates_consumer:
-    needs:
-      - build_currency_rates_gateway
-      - build_service_discovery_server
-    runs-on: ubuntu-latest
-    steps:
-      - name: Copy project from repository
-        uses: actions/checkout@v4
-      - name: Set up Java and Maven
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ env.JAVA }}
-          distribution: ${{ env.DISTRIBUTION }}
-          architecture: ${{ env.ARCHITECTURE }}
-          cache: maven
-      - name: Build service and run tests
-        run: mvn -B package --file ${{ env.CURRENCY_RATES_CONSUMER_PATH }}pom.xml
-      - name: Copy jar file
-        run: mkdir package && cp ${{env.CURRENCY_RATES_CONSUMER_PATH}}target/*.jar package
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          path: package
-          name: artifacts
-          retention-days: 5
-
-  build_currency_rates_client:
-    needs:
-      - build_currency_rates_gateway
-      - build_service_discovery_server
-    runs-on: ubuntu-latest
-    steps:
-      - name: Copy project from repository
-        uses: actions/checkout@v4
-      - name: Set up Java and Maven
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ env.JAVA }}
-          distribution: ${{ env.DISTRIBUTION }}
-          architecture: ${{ env.ARCHITECTURE }}
-          cache: maven
-      - name: Build service and run tests
-        run: mvn -B package --file ${{ env.CURRENCY_RATES_CLIENT_PATH }}pom.xml
-      - name: Copy jar file
-        run: mkdir package && cp ${{env.CURRENCY_RATES_CLIENT_PATH}}target/*.jar package
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          path: package
-          name: artifacts
-          retention-days: 5
+          retention-days: 1
 
   deploy_currency_rates:
     needs:
-      - build_currency_rates_gateway
-      - build_service_discovery_server
-      - build_httpclient_service
-      - build_privatbank_service
-      - build_monobank_service
-      - build_nbu_service
-      - build_currency_rates_provider
-      - build_currency_rates_consumer
-      - build_currency_rates_client
+      - clean-and-package-currency-rates-app
     runs-on: ubuntu-latest
     steps:
       - name: Get build artifacts for all modules.
