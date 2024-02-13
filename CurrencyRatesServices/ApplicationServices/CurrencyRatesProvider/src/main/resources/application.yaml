@@ -1,0 +1,20 @@
+# Port
+server:
+  port: 8083
+
+# App
+spring:
+  application:
+    name: currency-rates-provider
+  cloud:
+    config:
+      enabled: false
+  main:
+    allow-bean-definition-overriding:
+      true
+
+# Eureka client
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka}

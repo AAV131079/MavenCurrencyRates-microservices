@@ -1,5 +1,9 @@
 FROM postgres:16-alpine AS i_currency-rates-postgresql-db
+RUN apk update
+RUN apk add curl
+RUN apk add --no-cache tzdata
 EXPOSE 5432
+ENV TZ="Europe/Kiev"
 ENV DB_SCHEMAS="app"
 ENV POSTGRES_DB="currencyratesdb"
 ENV POSTGRES_USER="aav"

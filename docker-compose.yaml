@@ -10,7 +10,7 @@ services:
     image: "aav13101979/i_currency-rates-postgresql-db:1.0.0"
     container_name: currency-rates-postgresql-db
     ports:
-      - '5432:5432'
+      - '1310:5432'
     volumes:
       - currency-rates-postgresql-db:/var/lib/postgresql/data
     networks:
@@ -35,10 +35,6 @@ services:
       dockerfile: Build/Docker/ServiceDiscoveryServer/Dockerfile
     image: 'aav13101979/i_service-discovery-server:1.0.0'
     container_name: service-discovery-server
-    environment:
-      CONTAINER_PORT: 8761
-      CONTAINER_NAME: service-discovery-server
-      DISCOVERY_URL: http://service-discovery-server:8761/eureka/
     ports:
       - '8761:8761'
     networks:
@@ -172,6 +168,7 @@ services:
     container_name: currency-rates-consumer
     environment:
       DISCOVERY_URL: http://service-discovery-server:8761/eureka/
+      PROFILE: docker
     ports:
       - '8082:8082'
     networks:

@@ -3,9 +3,11 @@ WORKDIR /app
 COPY . .
 RUN mvn clean
 RUN mvn package
-FROM openjdk:19-jdk-alpine AS i_service-discovery-server
+FROM amazoncorretto:19-alpine AS i_service-discovery-server
 RUN apk update
 RUN apk add curl
-COPY --from=MAVEN_BUILD /app/ServiceDiscoveryServer/target/servicediscoveryserver-1.0.0.jar servicediscoveryserver.jar
+RUN apk add --no-cache tzdata
+COPY --from=MAVEN_BUILD /app/CurrencyRatesServices/UtilityServices/ServiceDiscoveryServer/target/servicediscoveryserver-1.0.0.jar servicediscoveryserver.jar
 EXPOSE 8761
+ENV TZ="Europe/Kiev"
 ENTRYPOINT ["java", "-jar", "servicediscoveryserver.jar"]

@@ -3,9 +3,11 @@ WORKDIR /app
 COPY . .
 RUN mvn clean
 RUN mvn package
-FROM openjdk:19-jdk-alpine AS i_privatbank_service
+FROM amazoncorretto:19-alpine AS i_privatbank_service
 RUN apk update
 RUN apk add curl
-COPY --from=MAVEN_BUILD /app/PrivatbankService/target/privatbankservice-1.0.0.jar privatbankservice.jar
+RUN apk add --no-cache tzdata
+COPY --from=MAVEN_BUILD /app/CurrencyRatesServices/ApplicationServices/PrivatbankService/target/privatbankservice-1.0.0.jar privatbankservice.jar
 EXPOSE 8084
+ENV TZ="Europe/Kiev"
 ENTRYPOINT ["java", "-jar", "privatbankservice.jar"]

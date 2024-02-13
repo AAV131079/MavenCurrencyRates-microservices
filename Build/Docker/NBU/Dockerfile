@@ -3,9 +3,11 @@ WORKDIR /app
 COPY . .
 RUN mvn clean
 RUN mvn package
-FROM openjdk:19-jdk-alpine AS i_nbu_service
+FROM amazoncorretto:19-alpine AS i_nbu_service
 RUN apk update
 RUN apk add curl
-COPY --from=MAVEN_BUILD /app/NBUService/target/nbuservice-1.0.0.jar nbuservice.jar
+RUN apk add --no-cache tzdata
+COPY --from=MAVEN_BUILD /app/CurrencyRatesServices/ApplicationServices/NBUService/target/nbuservice-1.0.0.jar nbuservice.jar
 EXPOSE 8083
+ENV TZ="Europe/Kiev"
 ENTRYPOINT ["java", "-jar", "nbuservice.jar"]

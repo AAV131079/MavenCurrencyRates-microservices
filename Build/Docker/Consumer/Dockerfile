@@ -3,11 +3,13 @@ WORKDIR /app
 COPY . .
 RUN mvn clean
 RUN mvn package
-FROM openjdk:19-jdk-alpine AS i_currency-rates-consumer
+FROM amazoncorretto:19-alpine AS i_currency-rates-consumer
 RUN apk update
 RUN apk add curl
-COPY --from=MAVEN_BUILD /app/CurrencyRatesConsumer/target/currencyratesconsumer-1.0.0.jar currencyratesconsumer.jar
+RUN apk add --no-cache tzdata
+COPY --from=MAVEN_BUILD /app/CurrencyRatesServices/ApplicationServices/CurrencyRatesConsumer/target/currencyratesconsumer-1.0.0.jar currencyratesconsumer.jar
 EXPOSE 8081
+ENV TZ="Europe/Kiev"
 ENV DB_SCHEMAS="app"
 ENV CONTAINER_NAME="currency-rates-postgresql-db"
 ENV DB_PORT="5432"
