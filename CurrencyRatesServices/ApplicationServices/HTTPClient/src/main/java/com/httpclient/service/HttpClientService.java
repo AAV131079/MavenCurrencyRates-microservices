@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -24,11 +25,15 @@ public class HttpClientService implements IHttpClientService {
     }
 
     @Override
-    public String getServiceResponse(String serviceUrl) throws IOException {
+    public String getServiceResponse(String serviceUrl) throws IOException, InterruptedException {
+        String response = null;
+        int counter = 1;
         log.info("{HttpClientService::getServiceResponse}");
         log.info("ServiceUrl: {}", serviceUrl);
-        String response = httpRequester.getRequest(serviceUrl);
-        assert response != null;
+        while (Objects.isNull(response)) {
+            log.info("Trying to get a response from the server: {}", counter++);
+            response = httpRequester.getRequest(serviceUrl);
+        }
         log.info("Response: {}", response);
         log.info("Response size: {}", response.length());
         return response;

@@ -29,7 +29,7 @@ public class ConsumerController implements IConsumerController {
     }
 
     @Override
-    @Scheduled(cron = "0 0,5,10,15,20,25,30,35,40,45,50,55 * * * *", zone="Europe/Kiev")
+    @Scheduled(cron = "0 0,10,20,30,40,50 * * * *", zone="Europe/Kiev")
     public void getCurrencyRatesFromProvider() throws ExecutionException, InterruptedException {
         log.info("{ConsumerController::getCurrencyRatesFromProvider}");
         List<CompletableFuture<String>> completableFutures = Arrays.stream(ProviderEnum.values())
