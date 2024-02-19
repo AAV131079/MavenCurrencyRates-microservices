@@ -28,9 +28,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Copy project from repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set up Java and Maven
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: ${{ env.JAVA }}
           distribution: ${{ env.DISTRIBUTION }}
@@ -44,7 +44,7 @@ jobs:
     needs: test_currency_rates
     steps:
       - name: Copy project from repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Stop and remove containers, networks
         run: sudo docker-compose down
       - name: Remove unused data
