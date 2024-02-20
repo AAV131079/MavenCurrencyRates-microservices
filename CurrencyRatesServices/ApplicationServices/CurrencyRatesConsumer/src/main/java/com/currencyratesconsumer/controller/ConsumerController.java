@@ -36,7 +36,7 @@ public class ConsumerController implements IConsumerController {
                 .map(provider -> {
                     try {
                         return consumerService.getCurrencyRatesFromProvider(provider.name().toLowerCase());
-                    } catch (JsonProcessingException | InterruptedException e) {
+                    } catch (JsonProcessingException e) {
                         log.info("Error!!! In thread: {}, message: {}",Thread.currentThread().getName(), e.getMessage());
                     }
                     return null;

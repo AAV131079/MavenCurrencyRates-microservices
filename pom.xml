@@ -14,10 +14,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>org.MavenCurrencyRates</groupId>
-    <artifactId>MavenCurrencyRates</artifactId>
+    <groupId>org.MavenCurrencyRates-microservices</groupId>
+    <artifactId>MavenCurrencyRates-microservices</artifactId>
     <version>1.0.0</version>
-    <name>MavenCurrencyRates</name>
+    <name>MavenCurrencyRates-microservices</name>
     <description>Parent project</description>
 
     <modules>

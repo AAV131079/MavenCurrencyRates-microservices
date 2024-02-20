@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Slf4j
 @Service
 @ComponentScan({"com.helpers"})
@@ -22,14 +24,16 @@ public class ProviderService implements IProviderService {
     }
 
     @Override
-    public String getProviderResponse(String provider) throws InterruptedException {
+    public String getProviderResponse(String provider) {
         log.info("{ProviderService::getProviderResponse}");
         String url = getUrl(provider);
         log.info("Request: {}", url);
         String providerResponse = restTemplateHelper.getResponse(url);
-        assert providerResponse != null;
-        log.info("Response: {}", providerResponse);
-        return providerResponse;
+        if (Objects.nonNull(providerResponse)) {
+            log.info("Response: {}", providerResponse);
+            return providerResponse;
+        }
+        return null;
     }
 
     private String getUrl(String provider) {

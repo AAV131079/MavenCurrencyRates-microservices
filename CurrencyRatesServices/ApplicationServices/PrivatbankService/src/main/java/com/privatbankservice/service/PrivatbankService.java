@@ -43,13 +43,16 @@ public class PrivatbankService implements IPrivatbankService {
         String uri = getUri();
         UrlRequestDTO requestBody = getRequestBody();
         log.info("Request: {}", uri);
-        log.info("Request body: {}", requestBody.toString());
+        log.info("Request body: {}", requestBody);
         String responseService = restTemplateHelper.getResponse(uri, requestBody);
         assert responseService != null;
-        String response = getResponse(responseService);
-        log.info("Response: {}", response);
-        log.info("Response size: {}", response.length());
-        return response;
+        if (responseService.contains("ccy")) {
+            String response = getResponse(responseService);
+            log.info("Response: {}", response);
+            log.info("Response size: {}", response.length());
+            return response;
+        }
+        return null;
     }
 
     private String getUri() {

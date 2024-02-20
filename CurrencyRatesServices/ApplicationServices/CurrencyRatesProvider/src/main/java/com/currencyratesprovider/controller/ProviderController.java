@@ -21,7 +21,7 @@ public class ProviderController implements IProviderController {
 
     @Override
     @GetMapping("/provider={provider}")
-    public String getProviderResponse(@PathVariable String provider) throws InterruptedException {
+    public String getProviderResponse(@PathVariable String provider) {
         log.info("{ProviderController::getProviderResponse}");
         log.info("Provider = {}", provider);
         return providerService.getProviderResponse(provider);

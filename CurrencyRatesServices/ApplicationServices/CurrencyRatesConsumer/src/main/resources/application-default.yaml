@@ -7,12 +7,12 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
-    generate-ddl: true
-    show-sql: true
+    generate-ddl: false
+    show-sql: false
     properties:
       hibernate.jdbc.lob.non_contextual_creation: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/currencyratesdb
+    url: jdbc:postgresql://localhost:1310/currencyratesdb
     username: aav
     password: 13101979
     driver-class-name: org.postgresql.Driver

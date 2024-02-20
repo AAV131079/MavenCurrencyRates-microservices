@@ -10,15 +10,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Objects;
+
 @Slf4j
 @Component
 public class RestTemplateHelper {
 
     private final RestTemplate restTemplateBuilder;
     private final RestTemplate restTemplateFactory;
-
-    private int sendCount = 1;
-    private static final int SEND_COUNT = 3;
 
     @Autowired
     public RestTemplateHelper(RestTemplate restTemplateBuilder, RestTemplate restTemplateFactory) {
@@ -37,10 +36,8 @@ public class RestTemplateHelper {
         if (response.getStatusCode().is2xxSuccessful()) {
             log.info("Thread: {}, url: {}, status: {}", Thread.currentThread().getName(), url, response.getStatusCode());
             return response.getBody();
-        } else if (response.getStatusCode().is5xxServerError() && sendCount <= SEND_COUNT) {
-            log.info("Resending the request! Try: {}", sendCount);
-            getResponse(url, requestBody);
-            sendCount++;
+        } else {
+            log.info("Error!!! The correct server response from url: {} was not received", requestBody.getUrl());
         }
         return null;
     }
@@ -52,8 +49,12 @@ public class RestTemplateHelper {
         } catch (RestClientException e) {
             log.warn("Error!!! In thread: {}, Message: {}", Thread.currentThread().getName(), e.getMessage());
         }
-        assert response != null;
-        return response;
+        if (Objects.nonNull(response)) {
+            return response;
+        } else {
+            log.info("Error!!! The correct server response from url: {} was not received", url);
+        }
+        return null;
     }
 
 }

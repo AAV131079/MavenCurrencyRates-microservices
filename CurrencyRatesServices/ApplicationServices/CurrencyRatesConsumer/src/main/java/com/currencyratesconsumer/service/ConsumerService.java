@@ -47,11 +47,13 @@ public class ConsumerService implements IConsumerService {
       String url = getUrl(provider);
       log.info("Request: {}", url);
       String providerResponse = restTemplateHelper.getResponse(url);
-      assert providerResponse != null;
-      log.info("Response: {}", providerResponse);
-      saveToDatabase(providerResponse);
-      log.info("{}. Work correct!!!", Thread.currentThread().getName());
-      return CompletableFuture.completedFuture(providerResponse);
+      if (Objects.nonNull(providerResponse)) {
+          log.info("Response: {}", providerResponse);
+          saveToDatabase(providerResponse);
+          log.info("{}. Work correct!!!", Thread.currentThread().getName());
+          return CompletableFuture.completedFuture(providerResponse);
+      }
+      return CompletableFuture.completedFuture(null);
     }
 
     private String getUrl(String provider) {

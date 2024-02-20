@@ -23,7 +23,7 @@ public class PrivatbankController implements IPrivatbankController {
 
     @Override
     @GetMapping("/currency-rates")
-    public String getCurrencyRates() throws JsonProcessingException, InterruptedException {
+    public String getCurrencyRates() throws JsonProcessingException {
         log.info("{PrivatbankController::getCurrencyRates}");
         return privatbankService.getCurrencyRates();
     }

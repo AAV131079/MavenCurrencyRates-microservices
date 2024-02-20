@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.io.IOException;
 
 public interface IHttpClientController {
-    public @ResponseBody String getServiceResponse(@RequestBody UrlRequestDTO request) throws IOException, InterruptedException;
+    public @ResponseBody String getServiceResponse(@RequestBody UrlRequestDTO request) throws IOException;
 }

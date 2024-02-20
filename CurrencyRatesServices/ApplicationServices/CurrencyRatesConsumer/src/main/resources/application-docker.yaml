@@ -7,8 +7,8 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
-    generate-ddl: true
-    show-sql: true
+    generate-ddl: false
+    show-sql: false
     properties:
       hibernate.jdbc.lob.non_contextual_creation: true
   datasource:

@@ -23,7 +23,7 @@ public class NBUController implements INBUController {
 
     @Override
     @GetMapping("/currency-rates")
-    public String getCurrencyRates() throws JsonProcessingException, InterruptedException {
+    public String getCurrencyRates() throws JsonProcessingException {
         log.info("{NBUController::getCurrencyRates}");
         return nbuService.getCurrencyRates();
     }

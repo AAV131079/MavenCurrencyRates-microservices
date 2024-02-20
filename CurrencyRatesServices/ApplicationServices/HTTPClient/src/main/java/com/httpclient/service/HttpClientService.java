@@ -25,7 +25,7 @@ public class HttpClientService implements IHttpClientService {
     }
 
     @Override
-    public String getServiceResponse(String serviceUrl) throws IOException, InterruptedException {
+    public String getServiceResponse(String serviceUrl) throws IOException {
         String response = null;
         int counter = 1;
         log.info("{HttpClientService::getServiceResponse}");

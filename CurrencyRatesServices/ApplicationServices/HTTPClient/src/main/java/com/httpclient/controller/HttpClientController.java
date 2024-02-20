@@ -43,7 +43,7 @@ public class HttpClientController implements IHttpClientController {
     })
     @Override
     @GetMapping(value = "/get/currency-rates", produces = "application/json")
-    public String getServiceResponse(@RequestBody UrlRequestDTO request) throws IOException, InterruptedException {
+    public String getServiceResponse(@RequestBody UrlRequestDTO request) throws IOException {
         log.info("{HttpClientController::getServiceResponse}");
         log.info("RequestBody: {}", request.toString());
         return httpClientService.getServiceResponse(request.getUrl());

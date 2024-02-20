@@ -23,7 +23,7 @@ public class MonobankController implements IMonobankController {
 
     @Override
     @GetMapping("/currency-rates")
-    public String getCurrencyRates() throws JsonProcessingException, InterruptedException {
+    public String getCurrencyRates() throws JsonProcessingException {
         log.info("{MonobankController::getCurrencyRates}");
         return monobankService.getCurrencyRates();
     }

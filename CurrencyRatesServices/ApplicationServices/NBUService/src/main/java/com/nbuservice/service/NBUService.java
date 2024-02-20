@@ -39,7 +39,7 @@ public class NBUService implements INBUService {
     }
 
     @Override
-    public String getCurrencyRates() throws JsonProcessingException, InterruptedException {
+    public String getCurrencyRates() throws JsonProcessingException {
         log.info("{NBUService::getCurrencyRates}");
         String uri = getUri();
         UrlRequestDTO requestBody = getRequestBody();
@@ -47,10 +47,13 @@ public class NBUService implements INBUService {
         log.info("Request body: {}", requestBody);
         String responseService = restTemplateHelper.getResponse(uri, requestBody);
         assert responseService != null;
-        String response = getResponse(responseService);
-        log.info("Response: {}", response);
-        log.info("Response size: {}", response.length());
-        return response;
+        if (responseService.contains("r030")) {
+            String response = getResponse(responseService);
+            log.info("Response: {}", response);
+            log.info("Response size: {}", response.length());
+            return response;
+        }
+        return null;
     }
 
     private String getUri() {
